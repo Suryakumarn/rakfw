@@ -1,0 +1,104 @@
+<html>
+<SCRIPT LANGUAGE="JavaScript1.2">
+function Circle (cx, cy, radius, color, dotSize, da) {
+  this.id = Circle.cnt++;
+  this.cx = cx || 100;
+  this.cy = cy || 100;
+  this.radius = radius || 100;
+  this.color = color || 'black';
+  this.dotSize = dotSize || 1;
+  this.da = da || Math.PI / 180;
+  this.left = this.cx - radius;
+  this.top = this.cy - radius;
+  this.width = 2 * this.radius + this.dotSize;
+  this.height = 2 * this.radius + this.dotSize;
+  this.relX = this.radius;
+  this.relY = this.radius;
+  if (document.layers) {
+    var l = this.layer = new Layer (this.width);
+    l.left = this.left;
+    l.top = this.top; 
+    l.clip.width = this.width;
+    l.clip.height = this.height;
+    l.visibility = 'show';
+  }
+  else if (document.all || document.getElementById) {
+    var html = ';
+    html += '<DIV ID="Circle' + this.id + '"';
+    html += ' STYLE="position: absolute;';
+    html += ' left: ' + this.left + 'px; top: ' + this.top + 'px;';
+    html += ' width: ' + this.width + 'px; height: ' + this.height 
++ 'px;';
+    html += '"';
+    html += '>';
+    html += '<\/DIV>';
+    if (document.all) {
+      document.body.insertAdjacentHTML('beforeEnd', html);
+      this.layer = document.all['Circle' + this.id];
+    }
+    else if (document.getElementById) {
+      var range = document.createRange();
+      range.setStartAfter(document.body.lastChild);
+      var docFrag = range.createContextualFragment(html);
+      document.body.appendChild(docFrag);
+      this.layer = document.getElementById('Circle' + this.id);
+    }
+  }
+  for (var a = 0; a < Math.PI * 2; a += this.da) {
+    var x = this.relY + this.radius * Math.sin(a);
+    var y = this.relY + this.radius * Math.cos(a);
+    if (document.layers) {
+      l = new Layer (this.dotSize, this.layer);
+      l.clip.width = this.dotSize;
+      l.clip.height = this.dotSize;
+      l.bgColor = this.color;
+      l.left = x;
+      l.top = y;
+      l.visibility = 'inherit';
+    }
+    else if (document.all || document.getElementById) {
+      var html = ';
+      html += '<SPAN';
+      html += ' STYLE="position: absolute; visibility: inherit;';
+      html += ' left: ' + x + 'px; top: ' + y + 'px;';
+      html += ' width: ' + this.dotSize + 'px; height: ' + this.dotSize 
++ 'px;';
+      html += ' background-color: ' + this.color + ';';
+      html += document.all ? 
+        'clip: rect (0 ' + this.dotSize + ' ' + this.dotSize + ' 0);' :
+        ';
+      html += '"';
+      html += '>';
+      html += '<\/SPAN>';
+      if (document.all) {
+        this.layer.insertAdjacentHTML('beforeEnd', html);
+      }
+      else if (document.getElementById) {
+        var range = document.createRange();
+        range.setStartAfter(this.layer);
+        var docFrag = range.createContextualFragment(html);
+        this.layer.appendChild(docFrag);
+      }
+    }
+  }
+}
+Circle.cnt = 0;  
+</SCRIPT>
+<SCRIPT>
+var circle1, circle2;
+function init () {
+  var cx = window.innerWidth ?
+    parseInt(window.innerWidth / 2) :
+    parseInt(document.body.clientWidth / 2);
+  var cy = window.innerHeight ?
+    parseInt(window.innerHeight / 2) :
+    parseInt(document.body.clientHeight / 2);
+  circle1 = new Circle (cx, cy, 100, 'lime');
+  circle2 = new Circle (cx, cy, 150, 'orange', 2);
+}
+</SCRIPT>
+<BODY ONLOAD="Circle (10,20,5,'red',1,360);">
+</body>
+</html>
+
+

@@ -1,0 +1,595 @@
+<!-- saved from url=(0016)http://localhost -->
+<html>
+<head>
+
+<title>Execution Results</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>amCharts examples</title>
+        <link rel="stylesheet" href="style.css" type="text/css">
+        <script src="../amcharts/amcharts.js" type="text/javascript"></script>
+<style>
+
+table {font-size: 12px;
+background:#E6E6E6;
+ }
+
+
+</style>
+<script type="text/vbscript">
+
+
+function getpname(filsrc,stype)
+
+	loc= window.location.pathname
+	jloc = split(loc,"/")
+	fOR cLOC = 0 TO ubound(JLOC)-4
+		If jloc(cLOC) <> " " then
+			IF nJLOC = "" then
+				nJLOC = jloc(cLOC)
+			Else
+				if stype = "vsrpt" then
+					njloc = njloc&"\"&jloc(cLOC)
+				Elseif stype = "jsrpt" then
+					njloc = njloc&"\\"&jloc(cLOC)
+				End if
+			End if
+		End if
+	Next
+	nwsplt = split(njloc,"%20")
+	for ncloc = 0 to ubound(nwsplt)
+		if nnjloc = " " then
+			nnjloc  = nwsplt(ncloc)
+		Else
+			nnjloc = nnjloc&" "&nwsplt(ncloc)
+		End if
+	next
+'msgbox nnjloc
+if stype = "vsrpt" then
+	getpname = trim(nnjloc&"\"&filsrc)
+Elseif stype = "jsrpt" then
+	 getpname = trim(nnjloc&"\\"&filsrc)
+end if
+
+end function
+</script>
+
+<script>
+     function function1()
+         {
+
+			//path="C:\\Users\\admin\\Desktop\\graph\\DetailedReports.xls"
+			//path="C:\\Users\\admin\\Desktop\\graph\\DetailedReportsGraph.xls"
+			//path="D:\\UIModifications\\Pages\\graph\\report\\DetailedReportsGraph.xls"
+			var DBpath = getpname("DataBase\\AutoSuiteRef.xls","jsrpt")
+			//alert(DBpath)
+			var refexcel = new ActiveXObject("Excel.Application");
+			refexcel.DisplayAlerts=false;
+			refexcel.visible=false;
+			var refbook = refexcel.Workbooks.Open(DBpath);
+			var refsheet=refbook.Worksheets("SelectedProduct");
+			var path = refsheet.Range("i2");
+
+
+
+            //reading from excel
+
+			var excel=new ActiveXObject("Excel.Application");
+			excel.DisplayAlerts=false;
+			excel.visible=false;
+			var book=excel.Workbooks.Open(path);
+			var sheet=book.Worksheets("Execution Status");
+
+			var process= sheet.Range("d8")
+			var prodname= sheet.Range("d7") +"["+ process+"]";
+			var stdate=sheet.Range("d21");
+
+
+            //product, process, date, time details table
+			document.getElementById("head").innerHTML="Current Execution Report";
+			document.getElementById("prod").innerHTML="Product:"+prodname;
+			document.getElementById("dat").innerHTML="Report date:"+stdate;
+			document.getElementById("head").style.fontWeight="bold";
+
+			var dt=new Date();
+			var hr= dt.getHours();
+			var min=dt.getMinutes();
+			var sec=dt.getSeconds();
+			var da=hr+":"+min+":"+sec
+			document.getElementById("tim").innerHTML="Report time:"+da;
+
+
+            //total pass and fail details
+
+			var total_pass,total_fail,total_executed;
+
+            // pass fail details for standalone
+			if (process=="Standalone")
+			  {
+			    // for pass fail pie chart
+				total_pass=sheet.Range("k25");
+			    total_fail=sheet.Range("k26");
+			    total_executed=sheet.Range("k27");
+
+                //for splitup bar graph
+                var quote_pass=Math.floor(sheet.Range("d25"));
+                var quote_fail=Math.floor(sheet.Range("d26"));
+                var policy_pass=Math.floor(sheet.Range("e25"));
+                var policy_fail=Math.floor(sheet.Range("e26"));
+                var endoresemnt_pass=Math.floor(sheet.Range("f25"));
+                var endorsement_fail=Math.floor(sheet.Range("f26"));
+                var validation_pass=Math.floor(sheet.Range("g25"));
+                var validation_fail=Math.floor(sheet.Range("g26"));
+                var renewal_quote_pass=Math.floor(sheet.Range("h25"));
+                var renewal_quote_fail=Math.floor(sheet.Range("h26"));
+                var renewal_policy_pass=Math.floor(sheet.Range("i25"));
+                var renewal_policy_fail=Math.floor(sheet.Range("i26"));
+                var renewal_endorsement_pass=Math.floor(sheet.Range("j25"));
+                var renewal_endorsemnt_fail=Math.floor(sheet.Range("j26"));
+
+                document.getElementById("qp").innerHTML=quote_pass;
+				document.getElementById("qf").innerHTML=quote_fail;
+				document.getElementById("pp").innerHTML=policy_pass;
+				document.getElementById("pf").innerHTML=policy_fail;
+				document.getElementById("ep").innerHTML=endoresemnt_pass;
+				document.getElementById("ef").innerHTML=endorsement_fail;
+				document.getElementById("vp").innerHTML=validation_pass;
+				document.getElementById("vf").innerHTML=validation_fail;
+				document.getElementById("rqp").innerHTML=renewal_quote_pass;
+				document.getElementById("rqf").innerHTML=renewal_quote_fail;
+				document.getElementById("rpp").innerHTML=renewal_policy_pass;
+				document.getElementById("rpf").innerHTML=renewal_policy_fail;
+				document.getElementById("rep").innerHTML=renewal_endorsement_pass;
+   			    document.getElementById("ref").innerHTML=renewal_endorsemnt_fail;
+
+
+   			    document.getElementById("ETETab").style.display='none';
+
+              }
+
+          // pass fail details for end to end
+		  if (process=="EndToEnd")
+		  	  {
+		  		total_pass=sheet.Range("l50");
+		  		total_fail=sheet.Range("l51");
+		  		total_executed=sheet.Range("l52");
+
+
+		  		//for splitup bar graph
+		  		var cust_creation_pass=Math.floor(sheet.Range("d50"));
+		  		var cust_creation_fail=Math.floor(sheet.Range("d51"));
+		  		var salchannel_creation_pass=Math.floor(sheet.Range("e50"));
+		  		var salchannel_creation_fail=Math.floor(sheet.Range("e51"));
+		  		var quote_pass=Math.floor(sheet.Range("f50"));
+                var quote_fail=Math.floor(sheet.Range("f51"));
+                var documentum_pass=Math.floor(sheet.Range("g50"));
+                var documentum_fail=Math.floor(sheet.Range("g51"));
+                var policy_pass=Math.floor(sheet.Range("h50"));
+                var policy_fail=Math.floor(sheet.Range("h51"));
+               	var endoresemnt_pass=Math.floor(sheet.Range("j50"));
+                var endorsement_fail=Math.floor(sheet.Range("j51"));
+                var crm_pass=Math.floor(sheet.Range("i50"));
+                var crm_fail=Math.floor(sheet.Range("i51"));
+                var claim_pass=Math.floor(sheet.Range("k50"));
+                var claim_fail=Math.floor(sheet.Range("k51"));
+
+                document.getElementById("eccp").innerHTML=cust_creation_pass;
+				document.getElementById("eccf").innerHTML=cust_creation_fail;
+				document.getElementById("escp").innerHTML=salchannel_creation_pass;
+				document.getElementById("escf").innerHTML=salchannel_creation_fail;
+				document.getElementById("eqp").innerHTML=quote_pass;
+				document.getElementById("eqf").innerHTML=quote_fail;
+				document.getElementById("edp").innerHTML=documentum_pass;
+				document.getElementById("edf").innerHTML=documentum_fail;
+				document.getElementById("epp").innerHTML=policy_pass;
+				document.getElementById("epf").innerHTML=policy_fail;
+				document.getElementById("eep").innerHTML=endoresemnt_pass;
+				document.getElementById("eef").innerHTML=endorsement_fail;
+				document.getElementById("ecp").innerHTML=crm_pass;
+   			    document.getElementById("ecf").innerHTML=crm_fail;
+   			    document.getElementById("eclp").innerHTML=claim_pass;
+   			    document.getElementById("eclf").innerHTML=claim_fail;
+
+
+                document.getElementById("excsplit").style.display='none';
+              }
+
+
+			document.getElementById("tot").innerHTML=total_executed;
+			document.getElementById("totpass").innerHTML=total_pass;
+			document.getElementById("totfail").innerHTML=total_fail;
+
+			var pass_graph= Math.floor(total_pass);
+			var fail_graph=Math.floor(total_fail);
+
+		    //pass fail pie chart
+            var cpfchart;
+
+            //Chart data
+			var cpfchartdata=[{
+			                     Status:"PASS",
+								 Count:pass_graph
+
+                             },{
+							     Status:"FAIL",
+							     Count:fail_graph
+
+                             }];
+
+            //Chart creation function
+            AmCharts.ready(function () {
+												// PIE CHART
+												cpfchart = new AmCharts.AmPieChart();
+												// title of the chart
+												//cpfchart.addTitle("EXECUTION OVERVIEW", 10);
+												cpfchart.dataProvider = cpfchartdata;
+												cpfchart.titleField = "Status";
+												cpfchart.valueField = "Count";
+												cpfchart.sequencedAnimation = true;
+												cpfchart.startEffect = "elastic";
+												cpfchart.innerRadius = "30%";
+												cpfchart.startDuration = 3;
+												cpfchart.labelRadius = 15;
+												// the following two lines makes the chart 3D
+												cpfchart.depth3D = 10;
+												cpfchart.angle = 15;
+												// WRITE
+												cpfchart.write("cpfchartdiv");
+            							 });
+
+
+            // bar graph for end to end
+            var chartETE;
+			var chartDataete = [{
+								  TestCase: "Customer",
+								  Pass: cust_creation_pass,
+								  Fail: cust_creation_fail
+			                }, {
+								  TestCase: "Sales Channel",
+								  Pass: salchannel_creation_pass,
+								  Fail: salchannel_creation_fail
+			                 }, {
+								  TestCase: "Quote",
+								  Pass: quote_pass,
+								  Fail: quote_fail
+    			              }, {
+								  TestCase: "Documentum",
+								  Pass: documentum_pass,
+								  Fail: documentum_fail
+			                 }, {
+								  TestCase: "Policy",
+								  Pass: policy_pass,
+								  Fail: policy_fail
+			                 }, {
+								  TestCase: "Endorsement",
+								  Pass: crm_pass,
+								  Fail: crm_fail
+			                 }, {
+								  TestCase: "CRM",
+								  Pass: endoresemnt_pass,
+								  Fail: endorsement_fail
+			                 }, {
+								  TestCase: "Claim",
+								  Pass: claim_pass,
+								  Fail: claim_fail
+			                 }];
+	        AmCharts.ready(function () {
+											  // SERIAL CHART
+											  chartETE = new AmCharts.AmSerialChart();
+											  chartETE.dataProvider = chartDataete;
+											  chartETE.categoryField = "TestCase";
+											  chartETE.plotAreaBorderAlpha = 0.2;
+											  chartETE.depth3D = 25;
+											  chartETE.angle = 30;
+
+											  // AXES
+											  // category
+											  var categoryAxis = chartETE.categoryAxis;
+											  categoryAxis.gridAlpha = 0.1;
+											  categoryAxis.labelRotation=60;
+											  categoryAxis.axisAlpha = 0;
+											  categoryAxis.gridPosition = "start";
+
+											  // value
+											  var valueAxis = new AmCharts.ValueAxis();
+											  valueAxis.stackType = "regular";
+											  valueAxis.gridAlpha = 0.1;
+											  valueAxis.axisAlpha = 0;
+											  chartETE.addValueAxis(valueAxis);
+
+											  // GRAPHS
+											  // first graph
+											  var graph = new AmCharts.AmGraph();
+											  graph.title = "Pass";
+											  graph.labelText = "[[value]]";
+											  graph.valueField = "Pass";
+											  graph.type = "column";
+											  graph.lineAlpha = 0;
+											  graph.fillAlphas = 1;
+											  graph.lineColor = "#04D215";
+											  chartETE.addGraph(graph);
+
+											  // second graph
+											  graph = new AmCharts.AmGraph();
+											  graph.title = "Fail";
+											  graph.labelText = "[[value]]";
+											  graph.valueField = "Fail";
+											  graph.type = "column";
+											  graph.lineAlpha = 0;
+											  graph.fillAlphas = 1;
+											  graph.lineColor = "#FF0F00";
+											  chartETE.addGraph(graph);
+
+
+
+											  // LEGEND
+											  var legend = new AmCharts.AmLegend();
+											  legend.borderAlpha = 0.2;
+											  legend.horizontalGap = 5;
+											  chartETE.addLegend(legend);
+											   if (process=="EndToEnd")
+											   {
+											  chartETE.write("esbarchartdiv");
+			                                   }
+			                        });
+
+
+            // bar graph for standalone
+            var chart;
+			var chartData = [{
+								  TestCase: "Quote",
+								  Pass: quote_pass,
+								  Fail: quote_fail
+			                }, {
+								  TestCase: "Policy",
+								  Pass: policy_pass,
+								  Fail: policy_fail
+			                 }, {
+								  TestCase: "Endorsement",
+								  Pass: endoresemnt_pass,
+								  Fail: endorsement_fail
+    			              }, {
+								  TestCase: "Validation",
+								  Pass: validation_pass,
+								  Fail: validation_fail
+			                 }, {
+								  TestCase: "Renewal Quote",
+								  Pass: renewal_quote_pass,
+								  Fail: renewal_quote_fail
+			                 }, {
+								  TestCase: "Renewal Policy",
+								  Pass: renewal_policy_pass,
+								  Fail: renewal_policy_fail
+			                 }, {
+								  TestCase: "Renewal Endorsement",
+								  Pass: renewal_endorsement_pass,
+								  Fail: renewal_endorsemnt_fail
+			                 }];
+	        AmCharts.ready(function () {
+											  // SERIAL CHART
+											  chart = new AmCharts.AmSerialChart();
+											  chart.dataProvider = chartData;
+											  chart.categoryField = "TestCase";
+											  chart.plotAreaBorderAlpha = 0.2;
+											  chart.depth3D = 25;
+											  chart.angle = 30;
+
+											  // AXES
+											  // category
+											  var categoryAxis = chart.categoryAxis;
+											  categoryAxis.gridAlpha = 0.1;
+											  categoryAxis.labelRotation=60;
+											  categoryAxis.axisAlpha = 0;
+											  categoryAxis.gridPosition = "start";
+
+											  // value
+											  var valueAxis = new AmCharts.ValueAxis();
+											  valueAxis.stackType = "regular";
+											  valueAxis.gridAlpha = 0.1;
+											  valueAxis.axisAlpha = 0;
+											  chart.addValueAxis(valueAxis);
+
+											  // GRAPHS
+											  // first graph
+											  var graph = new AmCharts.AmGraph();
+											  graph.title = "Pass";
+											  graph.labelText = "[[value]]";
+											  graph.valueField = "Pass";
+											  graph.type = "column";
+											  graph.lineAlpha = 0;
+											  graph.fillAlphas = 1;
+											  graph.lineColor = "#04D215";
+											  chart.addGraph(graph);
+
+											  // second graph
+											  graph = new AmCharts.AmGraph();
+											  graph.title = "Fail";
+											  graph.labelText = "[[value]]";
+											  graph.valueField = "Fail";
+											  graph.type = "column";
+											  graph.lineAlpha = 0;
+											  graph.fillAlphas = 1;
+											  graph.lineColor = "#FF0F00";
+											  chart.addGraph(graph);
+
+
+
+											  // LEGEND
+											  var legend = new AmCharts.AmLegend();
+											  legend.borderAlpha = 0.2;
+											  legend.horizontalGap = 5;
+											  chart.addLegend(legend);
+                                              if (process=="Standalone")
+                                              {
+											  chart.write("esbarchartdiv");
+											  }
+
+											  if (1==1)
+											                                      {
+											                                     // chart.write("esbarchartdiv");
+											                                      refbook.Save;
+											  								    book.Save;
+											  								    refbook.close();
+											  								    book.close();
+											  								    refexcel.Application.Quit();
+											  								    excel.Application.Quit();
+											  								    refsheet = null;
+											  								    sheet = null;
+											  								    refbook = null;
+											  								    book = null;
+											                                      refexcel = null;
+											                                      excel = null;
+                                    }
+			                        });
+
+            }
+
+function dispreport(report_type)
+	{
+		if (report_type == "currentexe")
+		{	
+			var curreppth = getpname("Pages\\graph\\samples\\Result.html","jsrpt")
+			parent.display.location = curreppth
+		}
+		else if (report_type == "overallexe")
+		{
+			var overeppth = getpname("Pages\\graph\\samples\\pie3D.html","jsrpt")
+			parent.display.location = overeppth	
+		}
+	}
+
+</script>
+</head>
+<body onload="function1()" bgcolor = "#4b5b6c" >
+<table border=2 width='100%'>
+  <tr>
+	<td rowspan = 5 width = 20% style="vertical-align:top;"> <br><a href = none id = "currentexe" onclick = "dispreport(id)">Current Execution Report </a> <br><br> <a href = 'none' id = "overallexe" onclick = "dispreport(id)">Overall Execution Report </a></td>
+           <td colspan=4 id="head" align="center" height='15'> </td>
+
+  </tr>
+  <tr>
+           <td id="prod" align="center" colspan = 2></td>
+           <td id="dat"  align="center"></td>
+           <td id="tim"  align="center"></td>
+   </tr>
+   <tr>
+             <td align="center" width='50%' colspan =2> Execution overview</td>
+			 <td  align="center" colspan=2 width='50%'> Execution status</td>
+   </tr>
+   <tr>
+              <td width='50%' align="center" colspan = 2><div id="cpfchartdiv" style="width:450px; height:350px;"></div></td>
+              <td colspan=2 width='50%' align="center"><div id="esbarchartdiv" style="width:400px; height:350px;"></div></td>
+
+   </tr>
+   <tr>
+              <td width='25%' colspan = 2>
+                        <table width='100%' border=2>
+                                 <tr>
+                                         <td align="center" colspan=3>Current execution overview </td>
+                                 </tr>
+                                 <tr>
+                                         <td align="center">Total</td>
+                                         <td align="center">Pass</td>
+                                         <td align="center">Fail</td>
+                                  </tr>
+
+                                  <tr >
+								         <td align="center" id="tot" ></td>
+								         <td align="center" id="totpass"></td>
+								         <td align="center" id="totfail"></td>
+                                  </tr>
+                        </table>
+
+              </td>
+
+              <td width='75%' colspan=2>
+			                          <table width='100%' border=2 id="excsplit" height='15' >
+			                                   <tr>
+                           			                   <td align="center" colspan=5>New business</td>
+                                                       <td align="center" colspan=4>Renewal</td>
+
+
+
+			                                   </tr>
+			                                   <tr>
+			                                            <td align="center">Status</td>
+			                                           <td align="center">Quote</td>
+                                                       <td align="center">Policy</td>
+			                                           <td align="center">Endorsement</td>
+		                                               <td align="center">Validation</td>
+		                                               <td align="center">Quote/Validation</td>
+													   <td align="center">Policy</td>
+			                                           <td align="center">Endorsement</td>
+
+			                                    </tr>
+
+			                                    <tr>
+			                                    <td align="center">Pass</td>
+			                                    <td align="center" id="qp"></td>
+			                                    <td align="center" id="pp"></td>
+			                                    <td align="center" id="ep"></td>
+			                                    <td align="center" id="vp"></td>
+			                                    <td align="center" id="rqp"></td>
+			                                    <td align="center" id="rpp"></td>
+			                                    <td align="center" id="rep"></td>
+
+			                                    </tr>
+			                                    <tr>
+												<td align="center">Fail</td>
+												<td align="center" id="qf"></td>
+												<td align="center" id="pf"></td>
+												<td align="center" id="ef"></td>
+												<td align="center" id="vf"></td>
+												<td align="center" id="rqf"></td>
+												<td align="center" id="rpf"></td>
+												 <td align="center" id="ref"></td>
+
+			                                    </tr>
+
+
+			                                </table>
+			                                <table id="ETETab" width='100%' border=2 height='15'>
+
+										    <tr>
+											  <td align="center" colspan=10>End to End Process</td>
+		                                    </tr>
+										    <tr>
+										       <td align="center">Status</td>
+											   <td align="center">Customer</td>
+											   <td align="center">Sales Channel</td>
+											   <td align="center">Quote</td>
+											   <td align="center">Documentum</td>
+											   <td align="center">Policy</td>
+											   <td align="center">CRM</td>
+											   <td align="center">Endorsement</td>
+											   <td align="center">Claim</td>
+											</tr>
+											<tr>
+												<td align="center">Pass</td>
+												<td align="center" id="eccp"></td>
+												<td align="center" id="escp"></td>
+												<td align="center" id="eqp"></td>
+												<td align="center" id="edp"></td>
+												<td align="center" id="epp"></td>
+												<td align="center" id="ecp"></td>
+												<td align="center" id="eep"></td>
+												<td align="center" id="eclp"></td>
+											</tr>
+											<tr>
+												<td align="center">Fail</td>
+												<td align="center" id="eccf"></td>
+												<td align="center" id="escf"></td>
+												<td align="center" id="eqf"></td>
+												<td align="center" id="edf"></td>
+												<td align="center" id="epf"></td>
+												<td align="center" id="ecf"></td>
+												<td align="center" id="eef"></td>
+											    <td align="center" id="eclf"></td>
+										   </tr>
+										</table>
+
+              </td>
+   </tr>
+</table>
+
+</body>
+</html></html>

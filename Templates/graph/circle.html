@@ -1,0 +1,46 @@
+<style>
+I {position:absolute; width:1; height:1; clip:rect(0 1 1 0); background-color:red}
+#circle {position:absolute; clip:rect(0 800 800 0)}
+</style>
+<script>
+D = document;
+IE = D.all;
+function plotCircle(radius,layer) {
+    plot = '';
+    pi = Math.PI;
+    x = -pi;
+    while (x<pi+.000078125) {
+        y = Math.sqrt((radius*radius-x*x));
+        if (!isNaN(y)) {
+            if (IE) plot += '<i style=left:' + Math.round(x*50+314) + ';top:' + Math.round(y*50+200) + '></i>';
+            else D[layer].document.write('<layer left=' + Math.round(x*50+314) + ' top=' + Math.round(y*50+194) + '><font size=1 color=red>·</layer>');
+        }
+        if (x>-pi+.78 && x<pi-.78) x += .02;
+        else if (x>-pi+.26 && x<pi-.26) x += .01;
+        else if (x>-pi+.06 && x<pi-.08) x += .005;
+        else if (x>-pi+.003 && x<pi-.004) x += .00125;
+        else x += .000078125;
+    }
+    x = pi;
+    while (x>-pi-.000078125) {
+        y = -Math.sqrt((radius*radius-x*x));
+        if (!isNaN(y)) {
+            if (IE) plot += '<i style=left:' + Math.round(x*50+314) + ';top:' + Math.round(y*50+200) + '></i>';
+            else D[layer].document.write('<layer left=' + Math.round(x*50+314) + ' top=' + Math.round(y*50+194) + '><font size=1 color=red>·</layer>');
+        }
+        if (x<pi-.78 && x>-pi+.78) x -= .02;
+        else if (x<pi-.26 && x>-pi+.26) x -= .01;
+        else if (x<pi-.06 && x>-pi+.08) x -= .005;
+        else if (x<pi-.003 && x>-pi+.004) x -= .00125;
+        else x -= .000078125;
+    }
+    if (IE) IE[layer].innerHTML = plot;
+}
+</script>
+<div id=circle></div>
+<TABLE width=630 height=400 bgcolor=black><tr><td><br></td></tr></TABLE>
+<FORM>
+<input type=button value=Draw! onClick=plotCircle(Math.PI,'circle')><br><br>
+</FORM>
+
+
