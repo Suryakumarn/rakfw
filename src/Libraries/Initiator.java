@@ -169,12 +169,8 @@ class RunnableDemo implements Runnable {
 	   
 	   public void start () throws InterruptedException {
 	      System.out.println("Starting " +  threadName );
-	      int threadcount = java.lang.Thread.activeCount();
-	      if (t == null) {
-	    	 while(threadcount>4)
-	    	 {
-	    		 threadcount = java.lang.Thread.activeCount();
-	    	 }
+	      if (t == null) 
+	      {  
 	         t = new Thread (this, threadName);
 	         t.start ();
 	      }

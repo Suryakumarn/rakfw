@@ -321,15 +321,25 @@ public class Driver extends RemoteWebDriver
 					Calendar cal4 = Calendar.getInstance();
 					keywordstartdate.set(currkeywordstartdate.format(cal4.getTime()));
 					Class<?> noparams[] = {};
-					Class<?> cls = Class.forName("Libraries.KeyWord");
-					Object obj = cls.newInstance();
-					java.lang.reflect.Method method = cls.getDeclaredMethod(testkeywords.get(), noparams);
+					try
+					{
+						Class<?> cls = Class.forName("Libraries.KeyWord");
+						Object obj = cls.newInstance();
+						java.lang.reflect.Method method = cls.getDeclaredMethod(testkeywords.get(), noparams);
+						method.invoke(obj);
+					}
+					catch(Exception e)
+					{
+						Class<?> cls = Class.forName("Libraries.Common");
+						Object obj = cls.newInstance();
+						java.lang.reflect.Method method = cls.getDeclaredMethod(testkeywords.get(), noparams); 
+						method.invoke(obj);
+					}
 					if(attachtoold.get().equals("Yess"))
 					{ 
 						cDriver.set(new ChromeDriver(DesiredCapabilities.chrome()));
 					}
 					TestData.set((Dictionary<?, ?>) Driver.freadfromtestdata());
-					method.invoke(obj);
 					if(Continue.get() == true)
 					{
 						currkeywordstatus.set("Pass");
