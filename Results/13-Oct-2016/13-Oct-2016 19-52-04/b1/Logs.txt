@@ -1,0 +1,9 @@
+Execution initiated at ---> 13-Oct-2016 19:52:04
+No of Scenario(s) to be executed in b1:1
+->b1
+No of TestCase(s) to be executed in s1:1
+--->s1
+----->tc1
+----->tc1  :Pass
+--->s1   :Pass
+->b1   :Pass

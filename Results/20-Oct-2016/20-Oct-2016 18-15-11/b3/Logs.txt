@@ -1,0 +1,11 @@
+Execution initiated at ---> 20-Oct-2016 18:15:11
+No of Scenario(s) to be executed in b3:1
+->b3
+No of TestCase(s) to be executed in s1:1
+--->s1
+----->tc1
+--------->openbrw   :Pass
+--------->search   :Pass
+----->tc1  :Pass
+--->s1   :Pass
+->b3   :Pass
