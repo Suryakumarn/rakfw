@@ -28,6 +28,7 @@ import Libraries.CustomXWPFDocument;
 --------------------------------------------------------------------------------------------------------*/
 public class Result 
 {
+	
 	public static ThreadLocal<String> masterreppth = new ThreadLocal<String>();
 	public static ThreadLocal<String> compretempstatic = new ThreadLocal<String>();
 	public static ThreadLocal<String> outputfinal = new ThreadLocal<String>();

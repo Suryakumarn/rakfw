@@ -323,14 +323,14 @@ public class Driver extends RemoteWebDriver
 					Class<?> noparams[] = {};
 					try
 					{
-						Class<?> cls = Class.forName("Libraries.KeyWord");
+						Class<?> cls = Class.forName("Libraries.Common");
 						Object obj = cls.newInstance();
 						java.lang.reflect.Method method = cls.getDeclaredMethod(testkeywords.get(), noparams);
 						method.invoke(obj);
 					}
 					catch(Exception e)
 					{
-						Class<?> cls = Class.forName("Libraries.Common");
+						Class<?> cls = Class.forName("Libraries.KeyWord");
 						Object obj = cls.newInstance();
 						java.lang.reflect.Method method = cls.getDeclaredMethod(testkeywords.get(), noparams); 
 						method.invoke(obj);
