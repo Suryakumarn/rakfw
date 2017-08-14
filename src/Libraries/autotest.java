@@ -7,7 +7,7 @@ public class autotest {
 	
 	public static void main(String argv[]) throws InterruptedException
 	{
-		String jacobDllVersionToUse = "D:\\eclipse\\WorkSpace\\FrameWork\\lib\\jacob-1.18-x86.dll";
+		String jacobDllVersionToUse = "C:\\Users\\admin\\Desktop\\FrameWork\\FrameWork\\lib\\jacob-1.18-x86.dll";
 		//File file = new File("lib", jacobDllVersionToUse);
 		System.setProperty(LibraryLoader.JACOB_DLL_PATH, jacobDllVersionToUse);
 		AutoItX x = new AutoItX();
