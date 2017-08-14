@@ -1,7 +1,7 @@
 package Libraries;
-import autoitx4java.AutoItX;
+/*import autoitx4java.AutoItX;
 import com.jacob.com.LibraryLoader;
-import java.io.File;
+import java.io.File;*/
 
 public class autotest {
 	
