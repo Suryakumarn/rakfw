@@ -510,7 +510,7 @@ public class Browser extends Driver
 		}
 		else if(BrowserName.toLowerCase().equals("firefox"))
 		{
-			System.setProperty("webdriver.firefox.marionette",Driver.basepth.get()+"/geckodriver.exe");
+			System.setProperty("webdriver.gecko.driver",Driver.basepth.get()+"/geckodriver.exe");
 			Driver.cDriver.set(new FirefoxDriver());
 		}
 		else if(BrowserName.toLowerCase().equals("internetexplorer"))

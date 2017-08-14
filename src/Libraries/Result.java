@@ -311,6 +311,8 @@ public class Result
 				ResEngine.executeUpdate(updateqry);
 				String nupdateqry = "Update MasterReport Set EndTime='"+Driver.TestCaseEndTime.get()+"' where TestCase='"+Driver.currtc.get()+"'";
 				ResEngine.executeUpdate(nupdateqry);
+				nupdateqry = "Update MasterReport Set TestCaseDis='"+Driver.tcdiscription.get()+"' where TestCase='"+Driver.currtc.get()+"'";
+				ResEngine.executeUpdate(nupdateqry);
 				
 			}
 			else if (Val.equals("Scenario"))

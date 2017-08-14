@@ -19,7 +19,7 @@ import com.codoid.products.fillo.Fillo;
 import com.codoid.products.fillo.Recordset;
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.Session;
-import Libraries.Initiator;
+import Libraries.InitiatorTest;
 //---------------------------------------------------------------------------------------------------------
 /*---------------------------------------------------------------------------------------------------------
  * Class Name			: Driver
@@ -71,6 +71,7 @@ public class Driver extends RemoteWebDriver
 	public static ThreadLocal<String> resultdescription = new ThreadLocal<String>();
 	public static ThreadLocal<String> currkeywordstatus = new ThreadLocal<String>();
 	public static ThreadLocal<String> ExecutionStarttimestr = new ThreadLocal<String>();
+	public static ThreadLocal<String> tcdiscription = new ThreadLocal<String>();
 	public static ThreadLocal<String> keywordstarttime = new ThreadLocal<String>();
 	public static ThreadLocal<String> keywordstartdate = new ThreadLocal<String>();
 	public static ThreadLocal<String> currmtc = new ThreadLocal<String>();
@@ -100,7 +101,7 @@ public class Driver extends RemoteWebDriver
 		{
 			Thread.sleep(Integer.parseInt(BatchCount)*2000);
 			attachtoold.set("Yes");
-			String[] totbatches= Initiator.floadbatches();
+			String[] totbatches= InitiatorTest.floadbatches();
 			totbatchlength.set((float) totbatches.length);
 			scrnno.set(1);
 			BatchName.set(Batch);	
@@ -267,6 +268,7 @@ public class Driver extends RemoteWebDriver
 			rs.moveFirst();
 			for(int currtc = 1 ; currtc <= rs.getCount(); currtc++)
 			{
+				tcdiscription.set(rs.getField(4).value());
 				testcases[currtc-1] = rs.getField(3).value();    
 				if (rs.hasNext())
 				{
@@ -321,6 +323,7 @@ public class Driver extends RemoteWebDriver
 					Calendar cal4 = Calendar.getInstance();
 					keywordstartdate.set(currkeywordstartdate.format(cal4.getTime()));
 					Class<?> noparams[] = {};
+					TestData.set((Dictionary<?, ?>) Driver.freadfromtestdata());
 					try
 					{
 						Class<?> cls = Class.forName("Libraries.Common");
@@ -339,7 +342,6 @@ public class Driver extends RemoteWebDriver
 					{ 
 						cDriver.set(new ChromeDriver(DesiredCapabilities.chrome()));
 					}
-					TestData.set((Dictionary<?, ?>) Driver.freadfromtestdata());
 					if(Continue.get() == true)
 					{
 						currkeywordstatus.set("Pass");
