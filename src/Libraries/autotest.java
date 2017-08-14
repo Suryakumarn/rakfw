@@ -9,6 +9,7 @@ public class autotest {
 	{
 		String jacobDllVersionToUse = "C:\\Users\\admin\\Desktop\\FrameWork\\FrameWork\\lib\\jacob-1.18-x86.dll";
 		//File file = new File("lib", jacobDllVersionToUse);
+		
 		System.setProperty(LibraryLoader.JACOB_DLL_PATH, jacobDllVersionToUse);
 		AutoItX x = new AutoItX();
 		x.run("calc.exe");
